@@ -17,9 +17,7 @@ def flatten(data):
         if not hasattr(element, '__iter__'):
             result.append(element)
         elif isinstance(element, dict):
-            for key, value in element.items():
-                result.append(key)
-                result.append(value)
+            result = result + (flatten(list(element.items())))
         elif isinstance(element, str):
             for subelement in element:
                 result.append(subelement)

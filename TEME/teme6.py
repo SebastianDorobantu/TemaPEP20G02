@@ -5,6 +5,7 @@
 # Fisierele se gasesc in repo.
 
 import os
+import sys
 import datetime
 
 
@@ -18,6 +19,8 @@ class LogSorter():
         self.logs = []
 
         for file in files:
+            file += '.log'
+            sys.path.append(os.path.abspath(file))
             path = os.path.join(os.path.dirname(__file__), file)
             self.files.append(path)
 
@@ -27,7 +30,6 @@ class LogSorter():
                     log = log[0:-1]
                 self.logs.append(log)
             file.close()
-
     def create_ordered_log(self, output_file: str):
         ordlog = []
 
@@ -48,7 +50,7 @@ class LogSorter():
         for line in ordlog:
             output.write(line)
             output.write('\n')
-        output.close
+        output.close()
 
         return output
 
