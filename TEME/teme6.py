@@ -30,20 +30,26 @@ class LogSorter():
                     log = log[0:-1]
                 self.logs.append(log)
             file.close()
+    def getTime(self , date ):
+        result = datetime.datetime.fromtimestamp(int(date[0:10])).strftime('%Y-%m-%d %H:%M:%S')
+        return result
+
     def create_ordered_log(self, output_file: str):
         ordlog = []
 
         for log in self.logs:
-            time = datetime.datetime.fromtimestamp(int(log[0:10])).strftime('%Y-%m-%d %H:%M:%S')
+            time = self.getTime(log)
             count = 0
 
             while count != len(self.logs):
                 try:
-                    if ordlog[count][0:10] > time:
-                        ordlog[count + 1] = ordlog[count]
-                        ordlog[count] = log
+                    if self.getTime(ordlog[count]) >= time:
+                        ordlog.insert(count,log)
+                        break
                 except IndexError:
                     ordlog.append(log)
+                    count-=1
+                    break
                 count += 1
 
         output = open(output_file, 'wt')
